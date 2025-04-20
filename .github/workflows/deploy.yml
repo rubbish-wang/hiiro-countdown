@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 显式指定新版系统
     permissions:
       contents: write
       pages: write
@@ -16,19 +16,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # （可选）如果项目需要构建（如React/Vue），在此处添加步骤
-    # - name: Build
-    #   run: |
-    #     npm install
-    #     npm run build
+    # 显式覆盖隐式依赖
+    - name: Force upload-artifact@v4
+      uses: actions/upload-artifact@v4  # 强制声明新版
 
     - name: Configure Pages
-      uses: actions/configure-pages@v4  # 更新至最新v4版本
+      uses: actions/configure-pages@v4
 
     - name: Upload Pages Artifact
       uses: actions/upload-pages-artifact@v2
       with:
-        path: .  # 若构建产物在dist目录，改为path: dist/
+        path: .
 
     - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v3  # 更新至最新v3版本
+      uses: actions/deploy-pages@v3
