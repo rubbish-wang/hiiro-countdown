@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master" ]  # 触发分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # （可选）如果有构建步骤（如npm build），在此添加
+    # - name: Install dependencies
+    #   run: npm install
+    # - name: Build project
+    #   run: npm run build
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        # 如果项目构建后文件在 dist/ 目录，修改为 path: dist/
+        path: .  
+
+    - name: Deploy
+      uses: actions/deploy-pages@v2
